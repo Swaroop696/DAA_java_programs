@@ -1,0 +1,104 @@
+import java.util.*;
+import java.lang.*;
+
+import java.util.Scanner;
+
+class excep extends Exception
+{
+    public String toString()
+    {
+        return "Enter a valid number of vertices";
+    }
+}
+class solveprims
+{
+    static void primsmeth(int num,int CM[][])
+    {
+       Scanner sc=new Scanner(System.in);
+        int sv;
+        System.out.println("enter the source vertex");
+        sv=sc.nextInt();
+        System.out.println("The spanning tree edges are");
+        int visited[]=new int[num];
+        int unvisited[]=new int[num]; 
+        for(int i=0;i<num;i++)
+         {
+             visited[i]=0;
+             unvisited[i]=1;
+         }
+        
+        visited[sv-1]=1;
+        unvisited[sv-1]=0;
+        int ind=0,src=0;
+        int tc=0,count=1;
+        //*****************
+        for(int i=1;i<num;i++)
+        {
+            int min=99;
+            for(int j=0;j<num;j++)
+            {
+                if(visited[j]==1)
+                {
+                    for(int k=0;k<num;k++)
+                    {
+                       if((unvisited[k]==1)&&(CM[j][k]!=999)) 
+                       {
+                           if(CM[j][k]<min)
+                           {
+                               min=CM[j][k];
+                                src=j;
+                                ind=k;
+                           }
+                       }
+                    }
+                }
+            }
+            visited[ind]=1;
+            unvisited[ind]=0;
+            
+            System.out.println((count++)+" edge is"+" "+(src+1)+"--->"+(ind+1));
+            tc=tc+min;
+        }
+        System.out.println("The total cost spent is "+tc);
+        
+    }
+}
+
+public class Hehe {
+    
+    
+    public static void main(String[] args)throws Exception {
+        Scanner sc=new Scanner(System.in);
+        int n;
+        System.out.println("Enter the number of vertices");
+        n=sc.nextInt();
+        if(n==0 || n<0)
+        {
+            throw new excep();
+        }
+        int j,i;
+        int CM[][]=new int[n][n];
+        System.out.println("Enter the adjacency matrix of size "+n+"x"+n);
+        
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<n;j++)
+            {
+                CM[i][j]=sc.nextInt();
+            }
+        }
+        System.out.println("The entered adjacency matrix is");
+        for(int x[]:CM)
+        {
+            for(int y:x)
+            {
+                System.out.print(y+"  ");
+            }
+            System.out.println();
+        }
+        
+        solveprims.primsmeth(n,CM);
+        
+      
+    }// main
+}    
