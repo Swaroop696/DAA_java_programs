@@ -1,63 +1,55 @@
 import java.util.Scanner;
-class quicksortnew
-{  
-   static int partition(int low,int high,int arr[])
-   {
-      int pivot=arr[low];
-      int i=low,j=high,temp;
-      while(i<=j)
-      {
-        while(arr[i]<=pivot)
-        {
-            i++;
+
+public class QuickSort{
+    public static int partition(int[] arr, int low, int high){
+        int pivot = arr[low], i = low, j = high, temp;
+        while(i < j){
+            while(arr[i] <= pivot && i < high){
+                i++;
+            }
+            while(arr[j] >= pivot && j > low){
+                j--;
+            }
+            if(i < j){
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
         }
-        while(arr[j]>pivot)
-        {
-            j--;
+        arr[low] = arr[j];
+        arr[j] = pivot;
+        return j;
+    }
+
+    public static void quicksort(int[] arr, int low, int high){
+        if(low < high){
+            int p = partition(arr, low, high);
+            quicksort(arr, low, p-1);
+            quicksort(arr, p+1, high);
+        }
+    }
+
+    public static void display(int[] arr, int n){
+        System.out.print("Sorted order: ");
+        for(int i=0; i<n; i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args){
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = in.nextInt();
+        int[] arr = new int[n];
+
+        System.out.print("Enter the elements: ");
+        for(int i=0; i<n; i++){
+            arr[i] = in.nextInt();
         }
 
-        if(i<j)
-        {
-		temp=arr[i];
-		arr[i]=arr[j];
-		arr[j]=temp;
-        }
-      }
-      arr[low]=arr[j];
-      arr[j]=pivot;
-      return j;
-   }
-   
-   
-   static void Quick_sort(int low,int high,int arr[])
-   {
-	   if(low < high){
-		int j=partition(low,high,arr);
-		Quick_sort(low,j-1,arr);
-		Quick_sort(j+1,high,arr);
-	   }
-   }
-   
-    public static void main(String[] args)
-    {
-        Scanner scan=new Scanner(System.in);
-        int n;
-         System.out.println("Enter the number of elements\n");
-         n=scan.nextInt();
-        int arr[]=new int[n];
-        System.out.println("Enter the elements\n");
-        for(int i=0;i<n;i++)
-        {
-            arr[i]=scan.nextInt();
-        }
-
-        Quick_sort(0,n-1,arr);
-
-        System.out.println("The array elements in sorted order are");
-        for(int x:arr)
-        {
-            System.out.print(x+" ");
-        }
-        
+        quicksort(arr, 0, n-1);
+        display(arr, n);
     }
 }
